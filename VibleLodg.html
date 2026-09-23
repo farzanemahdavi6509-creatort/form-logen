@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+    <head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سایت هتل مجلل رویال</title>
+
+    <style>
+        /* ۱. تنظیمات پایه‌ای و روان شدن اسکرول صفحه */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+
+        /* ۲. استایل منوی بالای صفحه (هدر مشکی طلایی) */
+        .hotel-header {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #111111; 
+            border-bottom: 2px solid #dfa532; 
+            z-index: 1000; 
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            padding: 15px 50px;
+            direction: rtl; 
+        }
+
+        .hotel-logo {
+            color: #dfa532;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 30px; 
+        }
+
+        .nav-menu a {
+            color: #ffffff; 
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #dfa532;
+        }
+
+        /* ۳. استایل بگروند بزرگ و تمام‌صفحه اول سایت */
+        .hotel-hero {
+            
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('image.jfif'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px; 
+        }
+
+        .hero-text h1 {
+            color: #ffffff;
+            font-size: 50px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        /* ۴. استایل اسلایدر متحرک گالری با چوکات بزرگ */
+        .slider-section {
+            background-color: #111111; 
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .slider-section h2 {
+            color: #ffffff;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .slider-container {
+            position: relative;
+            max-width: 1200px; 
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background-color: #222; 
+        }
+
+        .slider-wrapper {
+            display: flex;
+            width: 100%;
+            scroll-behavior: smooth; 
+            overflow-x: auto;
+            scrollbar-width: none; 
+        }
+        
+        .slider-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .slide-item {
+            min-width: 100%; 
+            height: 600px; 
+            position: relative;
+        }
+
+        .slide-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+        }
+
+        .slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 25px;
+            font-size: 20px;
+            z-index: 5;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #ffffff;
+            border: none;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.3s;
+            z-index: 10;
+        }
+
+        .slider-btn:hover {
+            background-color: #dfa532; 
+        }
+
+        .btn-prev { right: 20px; }
+        .btn-next { left: 20px; }
+
+        /* ۵. استایل بخش معرفی ۴ نوع اتاق هتل */
+        .rooms-section {
+            background-color: #f9f9f9; 
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .rooms-section h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 30px;
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 20px; 
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .room-card {
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: right;
+            direction: rtl;
+            padding-bottom: 15px;
+        }
+
+        .room-card img {
+            width: 100%;
+            height: 220px; 
+            object-fit: cover; 
+        }
+
+        .room-card h3 {
+            font-size: 20px;
+            color: #dfa532; 
+            margin: 15px 15px 5px 15px;
+            text-align: center;
+        }
+
+        .room-card p {
+            color: #777;
+            font-size: 14px;
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        /* ۶. استایل بخش درباره ما در پایین‌ترین جای صفحه */
+        .about-section {
+            background-color: #ffffff; 
+            padding: 80px 20px;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-section h2 {
+            color: #333333;
+            font-size: 32px;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .about-section h2::after {
+            content: '';
+            width: 60px;
+            height: 3px;
+            background-color: #dfa532;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .about-section p {
+            color: #666666;
+            font-size: 18px;
+            line-height: 1.8; 
+            margin-top: 20px;
+        }
+
+        /* ۷. استایل فوتر نهایی و اطلاعات تماس */
+        .hotel-footer {
+            background-color: #111111; 
+            color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+            direction: rtl;
+            border-top: 2px solid #dfa532; 
+        }
+
+        .footer-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-info h4 {
+            color: #dfa532;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .footer-info p {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .copyright {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #777;
+            border-top: 1px solid #222;
+            padding-top: 15px;
+        }
+         /* --------------------------------------- */
+        /* بخش جدید: فرم ثبت سفارش و رزرو اتاق */
+        /* --------------------------------------- */
+        .booking-section {
+            background-color: #ffffff;
+            padding: 60px 20px;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .booking-section h2 {
+            color: #333333;
+            font-size: 30px;
+            margin-bottom: 30px;
+        }
+
+        .booking-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #111111; /* کادر تیره شیک هماهنگ با منو و فوتر */
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            text-align: right;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #dfa532; /* رنگ طلایی برای متن لیبل‌ها */
+            margin-bottom: 8px;
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #333;
+            background-color: #222;
+            color: #fff;
+            border-radius: 6px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #dfa532; /* تغییر رنگ کادر به طلایی هنگام فوکوس */
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: #dfa532;
+            color: #111111;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #c58f26;
+            color: #ffffff;
+        }
+        /* استایل جدید برای قیمت‌های زیر کارت اتاق */
+        .room-price {
+            font-size: 18px;
+            color: #dfa532; /* رنگ طلایی لوکس */
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            direction: rtl;
+        }
+
+        .room-price span {
+            font-size: 13px;
+            color: #888888;
+            font-weight: nor
+mal;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ۱. منوی بالای صفحه (هدر) -->
+    <header class="hotel-header">
+        <div class="hotel-logo">HOTEL ROYAL</div>
+        <ul class="nav-menu">
+            <li><a href="#hero">صفحه اصلی</a></li>
+            <li><a href="#gallery">گالری تصاویر</a></li>
+            <li><a href="#rooms">انواع اتاق‌ها</a></li>
+            <li><a href="#about">درباره ما</a></li>
+            <li><a href="#footer">تماس با ما</a></li>
+        </ul>
+    </header>
+
+    <!-- ۲. بخش اول: تصویر بزرگ بگروند -->
+    <section id="hero" class="hotel-hero">
+        <div class="hero-text">
+            <h1>به هتل ما خوش آمدید</h1>
+        </div>
+    </section>
+
+    <!-- ۳. بخش دوم: اسلایدر گالری تصاویر هتل -->
+    <section id="gallery" class="slider-section">
+        <h2>گالری تصاویر هتل</h2>
+        <div class="slider-container">
+            <button class="slider-btn btn-prev" onclick="document.getElementById('hotel-slider').scrollBy(400, 0)">»</button>
+            <button class="slider-btn btn-next" onclick="document.getElementById('hotel-slider').scrollBy(-400, 0)">«</button>
+            <div class="slider-wrapper" id="hotel-slider">
+                <div class="slide-item"><img src="Tehran.jfif"نمای هتل"><div class="slide-caption">منظره دیدنی</div></div>
+                <div class="slide-item"><img src="download (9).jfif" alt="رستوران"><div class="slide-caption">رستوران بین‌المللی با سرآشپزهای ماهر</div></div>
+                <div class="slide-item"><img src="new.jfif" alt="استخر"><div class="slide-caption">مجموعه آبی و سالن اسپای اختصاصی</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ۴. بخش سوم: معرفی ۴ نوع اتاق هتل (نسخه جدید همراه با قیمت) -->
+    <section id="rooms" class="rooms-section">
+        <h2>انواع اتاق و اقامتگاه‌ها</h2>
+        <div class="rooms-grid">
+            
+            <!-- اتاق اول -->
+            <div class="room-card">
+                <img src="moon.jfif" alt="اتاق یک تخته">
+                <h3>اتاق استاندارد</h3>
+                <p>مناسب برای سفرهای کاری و تک نفره</p>
+                <div class="room-price">۱,۵۰۰,۰۰۰ <span>تومان / هر شب</span></div>
+            </div>
+
+            <!-- اتاق دوم -->
+            <div class="room-card">
+                <img src="Edit.jfif" alt="اتاق دو تخته">
+                <h3>اتاق توئین</h3>
+                <p>دارای دو تخت مجزا و امکانات کامل</p>
+                <div class="room-price">۲,۲۰۰,۰۰۰ <span>تومان / هر شب</span></div>
+            </div>
+
+            <!-- اتاق سوم -->
+            <div class="room-card">
+                <img src="download (8).jfif" alt="اتاق خانوادگی">
+                <h3>اتاق خانوادگی</h3>
+                <p>فضای بزرگ و راحت برای خانواده‌ها</p>
+                <div class="room-price">۳,۵۰۰,۰۰۰ <span>تومان / هر شب</span></div>
+            </div>
+
+            <!-- اتاق چهارم -->
+            <div class="room-card">
+                <img src="Room.jfif" alt="سوئیت لوکس">
+                <h3>سوئیت مجلل</h3>
+                <p>دارای جکوزی اختصاصی و ویوی عالی</p>
+                <div class="room-price">۵,۸۰۰,۰۰۰ <span>تومان / هر شب</span></div>
+            </
+div>
+
+        </div>
+    </section>
+
+    <!-- ۵. بخش چهارم: درباره ما (دقیقاً در پایین صفحه) -->
+<!-- بخش درباره ما -->
+    <section id="about" class="about-section">
+        <div class="about-container">
+            <h2>چرا هتل بین‌المللی رویال؟</h2>
+            <p>
+                هتل بین‌المللی و ۵ ستاره رویال، با بیش از دو دهه تجربه در صنعت هتل‌داری، نمادی از شکوه، آرامش و میزبانی اصیل است. ما با تلفیق معماری مدرن روز دنیا و امکانات رفاهی بی‌نظیر، فضایی رویایی را برای اقامت شما فراهم کرده‌ایم. دسترسی سریع به مراکز تجاری و تفریحی شهر، اتاق‌های مجهز به فناوری هوشمند، مجموعه آبی پیشرفته و رستوران‌های بین‌المللی، تنها بخشی از ویژگی‌هایی است که هتل رویال را به انتخاب اول مسافران دیپلماتیک و خانواده‌های محترم تبدیل می‌کند. در هتل رویال، شما یک مسافر نیستید؛ شما مهمان ویژه ما هستید.
+            </p>
+        </div>
+    </
+section>
+<!-- بخش تماس با ما و فوتر پایانی -->
+    <footer id="footer" class="hotel-footer">
+        <div class="footer-container">
+            
+            <div class="footer-info">
+                <h4>راه‌های ارتباطی</h4>
+                <p>📞 تلفن پذیرش: ۰۲۱-۸۸۸۸۹۹۹۹</p>
+                <p>✉️ ایمیل پشتیبانی: farzanamahdavi6509@gmail.com</p>
+            </div>
+
+            <div class="footer-info">
+                <h4>موقعیت مکانی</h4>
+                <p>📍 تهران، خیابان ولیعصر، بالاتر از میدان ونک، نبش خیابان چهاردهم، پلاک ۱۰۰</p>
+            </div>
+
+            <div class="footer-info">
+                <h4>پذیرش مهمان</h4>
+                <p>🕒 سیستم رزرو آنلاین و پذیرش حضوری هتل به صورت ۲۴ ساعته فعال است.</p>
+            </div>
+
+        </div>
+        <div class="copyright">
+            <p>تمامی حقوق مادی و معنوی این وب‌سایت متعلق به هتل مجلل رویال می‌باشد. | هنوز دیر نشده برای اقامت </p>
+     
+   </div>
+    </footer>
+    <section class="booking-section">
+        <h2>ثبت سفارش و رزرو آنلاین اتاق</h2>
+        
+        <form class="booking-form" action="#" method="POST">
+            
+            <div class="form-group">
+                <label>نام و نام خانوادگی:</label>
+                <input type="text" placeholder="نام خود را وارد کنید" required>
+            </div>
+
+            <div class="form-group">
+                <label>انتخاب نوع اتاق:</label>
+                <select required>
+                    <option value="" disabled selected>لطفاً یک اتاق انتخاب کنید</option>
+                    <option value="single">اتاق استاندارد (یک تخته)</option>
+                    <option value="double">اتاق توئین (دو تخته)</option>
+                    <option value="family">اتاق خانوادگی</option>
+                    <option value="vip">سوئیت مجلل VIP</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>تاریخ ورود:</label>
+                <input type="date" required>
+            </div>
+
+            <div class="form-group">
+                <label>تاریخ خروج:</label>
+                <input type="date" required>
+            </div>
+
+            <button type="submit" class="btn-submit">تایید و ثبت نهایی رزرو</button>
+        </form>
+        </section>
+
+</body>
